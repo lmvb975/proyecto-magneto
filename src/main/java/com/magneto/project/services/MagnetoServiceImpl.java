@@ -1,16 +1,25 @@
 package com.magneto.project.services;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.magneto.project.models.AdnRequest;
+import com.magneto.project.models.entities.Adn;
+import com.magneto.project.repositories.AdnRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 public class MagnetoServiceImpl implements  MagnetoService{
+
+    @Autowired
+    private AdnRepository adnRepository;
 
     /**
      *
@@ -87,6 +96,15 @@ public class MagnetoServiceImpl implements  MagnetoService{
             coincidencias +=validarAdnMutante(String.valueOf(c));
         }
         System.out.println("COINCIDENCIAS: "+coincidencias);
+
+
+        Adn datastoreadn = new Adn();
+        datastoreadn.setEsMutante(esMutante);
+        String adnJson = new Gson().toJson(dna.getDna());
+        datastoreadn.setBaseAdn(adnJson);
+        datastoreadn.setAdnId(UUID.randomUUID().toString());
+
+        adnRepository.save(datastoreadn);
         return validarMatriz(dna);
     }
 
