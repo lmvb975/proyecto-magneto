@@ -1,0 +1,7 @@
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/models/AdnRequest.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/models/AdnResponse.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/exceptions/AdnInvalidoException.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/controllers/MagnetoController.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/services/MagnetoService.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/services/MagnetoServiceImpl.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/MagnetoApplication.java

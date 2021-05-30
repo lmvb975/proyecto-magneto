@@ -5,6 +5,7 @@ import com.magneto.project.services.MagnetoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +22,8 @@ public class MagnetoController {
     private MagnetoService magnetoService;
 
     @PostMapping()
-    public ResponseEntity<String> validarADN(@RequestBody AdnRequest adn){
-        if(magnetoService.isMutant(adn)){
+    public ResponseEntity<String> validarADN(@RequestBody AdnRequest dna){
+        if(magnetoService.isMutant(dna)){
             return ResponseEntity.status(200).body("Es Mutante !!");
         }else{
             return ResponseEntity.status(403).body("Humano Normal");

@@ -1,13 +1,13 @@
 package com.magneto.project.models;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Setter
 @Getter
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdnRequest {
 
     private String[] dna;
