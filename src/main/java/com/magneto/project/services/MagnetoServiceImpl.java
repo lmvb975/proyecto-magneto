@@ -1,17 +1,15 @@
 package com.magneto.project.services;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.magneto.project.models.AdnRequest;
 import com.magneto.project.models.entities.Adn;
 import com.magneto.project.repositories.AdnRepository;
+import com.magneto.project.utils.AdnUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class MagnetoServiceImpl implements  MagnetoService{
@@ -20,153 +18,61 @@ public class MagnetoServiceImpl implements  MagnetoService{
     private AdnRepository adnRepository;
 
     /**
-     *
+     * servicio que valida si un adn es de mutante o humano
      * @param dna
-     * @return
+     * @return boolean
      */
     @Override
     public Boolean isMutant(AdnRequest dna) {
-
         Boolean esMutante = false;
         int coincidencias=0;
 
-        //Validar coincidencias de adn Horizontal
-        for (String a:dna.getDna()) {
-            coincidencias +=validarAdnMutante(a);
-        }
+        AdnUtils utils = new AdnUtils();
+        utils.setLongitud(dna.getDna().length);
 
-        //guardar variable longitud de la matriz
-        int longitud = dna.getDna().length;
+        char[][] matrizAdn = utils.convertirAdnMatriz(dna.getDna());
+        char[][] matrizAdnVertical = utils.girarMatrizDerecha(matrizAdn);
 
-        //convertir String[] a char[][]
-        char[][] adnToChar = new char[longitud][longitud];
-        for (int i = 0; i < longitud; i++) {
-            adnToChar[i] = dna.getDna()[i].toCharArray();
-        }
+        coincidencias += utils.validarAdnMutante(matrizAdn);
+        coincidencias +=utils.validarAdnMutante(matrizAdnVertical);
+        coincidencias +=utils.validarDiagonal(matrizAdn);
+        coincidencias +=utils.validarDiagonal(matrizAdnVertical);
+        esMutante = esAdnMutante(coincidencias);
 
-        //Rotar matriz a la derecha
-        char[][] adnVertical = new char[longitud][longitud];
-        for (int x=0;x<longitud;x++) {
-            for (int y=0;y<longitud;y++) {
-                adnVertical[y][longitud-1-x] = adnToChar[x][y];
-            }
-        }
+        guardarAdn(dna.getDna(),esMutante);
+        return esMutante;
+    }
 
-        //Validar coincidencias de adn Vertical
-        for (char[] c:adnVertical) {
-            coincidencias +=validarAdnMutante(String.valueOf(c));
-        }
-
-        //Diagonal izquierda a derecha
-        char[][] adnDiagonalIDA = new char[longitud][longitud];
-        char[][] adnDiagonalIDB = new char[longitud][longitud];
-        for (int x=0;x<longitud;x++) {
-            for (int y=0;y<longitud-x;y++) {
-                adnDiagonalIDA[x][y] = adnToChar[x+y][y];
-                if(x!=0){
-                    adnDiagonalIDB[x][y] = adnToChar[y][y+x];
-                }
-            }
-        }
-        //Diagonal derecha a izquierda, recorremos con la matriz girada a la derecha
-        char[][] adnDiagonalDIA = new char[longitud][longitud];
-        char[][] adnDiagonalDIB = new char[longitud][longitud];
-        for (int x=0;x<longitud;x++) {
-            for (int y=0;y<longitud-x;y++) {
-                adnDiagonalDIA[x][y] = adnVertical[x+y][y];
-                if(x!=0){
-                    adnDiagonalDIB[x][y] = adnVertical[y][y+x];
-                }
-            }
-        }
-
-        //Validar coincidencias de adn Diagonal
-        for (char[] c:adnDiagonalIDA) {
-            coincidencias +=validarAdnMutante(String.valueOf(c));
-        }
-        for (char[] c:adnDiagonalIDB) {
-            coincidencias +=validarAdnMutante(String.valueOf(c));
-        }
-        for (char[] c:adnDiagonalDIA) {
-            coincidencias +=validarAdnMutante(String.valueOf(c));
-        }
-        for (char[] c:adnDiagonalDIB) {
-            coincidencias +=validarAdnMutante(String.valueOf(c));
-        }
-        System.out.println("COINCIDENCIAS: "+coincidencias);
-
-
+    /**
+     * guarda el adn y la respuesta si es mutante en cloud datastore
+     * @param adn
+     * @param esMutante
+     */
+    private void guardarAdn(String[] adn, Boolean esMutante){
         Adn datastoreadn = new Adn();
         datastoreadn.setEsMutante(esMutante);
-        String adnJson = new Gson().toJson(dna.getDna());
+        String adnJson = new Gson().toJson(adn);
         datastoreadn.setBaseAdn(adnJson);
         datastoreadn.setAdnId(UUID.randomUUID().toString());
-
         adnRepository.save(datastoreadn);
-        return validarMatriz(dna);
-    }
-
-
-
-
-    private int validarAdnMutante(String cadena){
-        int coincidencias=0;
-        if(cadena.contains("AAAA")){
-            System.out.println("Contiene AAAA");
-            coincidencias++;
-        }
-        if(cadena.contains("TTTT")){
-            System.out.println("Contiene TTTT");
-            coincidencias++;
-        }
-        if(cadena.contains("CCCC")){
-            System.out.println("Contiene CCCC");
-            coincidencias++;
-        }
-        if(cadena.contains("GGGG")){
-            System.out.println("Contiene GGGG");
-            coincidencias++;
-        }
-        return coincidencias;
     }
 
     /**
-     *
-     * @param dna
+     * valida si tiene mas de una coincidencia
+     * @param coincidencias
      * @return
      */
-    private Boolean validarMatriz(AdnRequest dna){
-        Boolean esValida = true;
-        int longitud = dna.getDna().length;
-        for (String a:dna.getDna()) {
-            if(a.length() != longitud){
-                esValida = false;
-                System.out.println("Matriz invalida");
-                break;
-            }
+    private Boolean esAdnMutante(int coincidencias){
+        if(coincidencias>1){
+            return true;
+        }else{
+            return false;
         }
-        return esValida;
     }
 
-    /**
-     *
-     * @param dna
-     * @return
-     */
-    private Boolean validarBaseNitrogenada(AdnRequest dna){
-        Boolean esValida = true;
-        Pattern pat = Pattern.compile("(A|T|C|G)+");
-        for (String a:dna.getDna()) {
-            Matcher mat = pat.matcher(a.toUpperCase());
-            if (mat.matches()==false) {
-                System.out.println(a+" :NO coincide");
-                esValida = false;
-                break;
-            } else {
-                System.out.println(a+" :coincide");
-            }
-        }
-        return esValida;
-    }
+
+
+
+
 
 }
