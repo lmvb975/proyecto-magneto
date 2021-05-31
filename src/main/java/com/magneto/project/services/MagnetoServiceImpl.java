@@ -1,7 +1,6 @@
 package com.magneto.project.services;
 
 import com.google.gson.Gson;
-import com.magneto.project.controllers.MagnetoController;
 import com.magneto.project.models.AdnRequest;
 import com.magneto.project.models.entities.Adn;
 import com.magneto.project.repositories.AdnRepository;

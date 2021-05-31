@@ -92,7 +92,6 @@ public class AdnUtils {
      */
     public Boolean validarMatriz(AdnRequest dna){
         Boolean esValida = true;
-        int longitud = dna.getDna().length;
         for (String a:dna.getDna()) {
             if(a.length() != longitud){
                 esValida = false;
