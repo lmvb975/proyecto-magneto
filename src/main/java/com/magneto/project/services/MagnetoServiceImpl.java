@@ -29,13 +29,11 @@ public class MagnetoServiceImpl implements  MagnetoService{
     @Override
     public Boolean isMutant(AdnRequest dna) {
         AdnUtils utils = new AdnUtils();
+        Boolean esMutante = false;
         if(utils.validarBaseNitrogenada(dna)){
+            utils.setLongitud(dna.getDna().length);
             if(utils.validarMatriz(dna)){
-                Boolean esMutante = false;
                 int coincidencias=0;
-
-                utils.setLongitud(dna.getDna().length);
-
                 char[][] matrizAdn = utils.convertirAdnMatriz(dna.getDna());
                 char[][] matrizAdnVertical = utils.girarMatrizDerecha(matrizAdn);
 
@@ -44,15 +42,16 @@ public class MagnetoServiceImpl implements  MagnetoService{
                 coincidencias +=utils.validarDiagonal(matrizAdn);
                 coincidencias +=utils.validarDiagonal(matrizAdnVertical);
                 esMutante = esAdnMutante(coincidencias);
-
                 guardarAdn(dna.getDna(),esMutante);
                 return esMutante;
             }else{
                 log.info("adn no cumple regla NxN");
+                guardarAdn(dna.getDna(),esMutante);
                 return false;
             }
         }else{
             log.info("base nitrogenada invalida");
+            guardarAdn(dna.getDna(),esMutante);
             return false;
         }
     }

@@ -92,14 +92,13 @@ import java.util.regex.Pattern;
      */
     public Boolean validarMatriz(AdnRequest dna){
 <span class="fc" id="L94">        Boolean esValida = true;</span>
-<span class="fc" id="L95">        int longitud = dna.getDna().length;</span>
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (String a:dna.getDna()) {</span>
-<span class="fc bfc" id="L97" title="All 2 branches covered.">            if(a.length() != longitud){</span>
-<span class="fc" id="L98">                esValida = false;</span>
-<span class="fc" id="L99">                break;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        for (String a:dna.getDna()) {</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">            if(a.length() != longitud){</span>
+<span class="fc" id="L97">                esValida = false;</span>
+<span class="fc" id="L98">                break;</span>
             }
         }
-<span class="fc" id="L102">        return esValida;</span>
+<span class="fc" id="L101">        return esValida;</span>
     }
 
     /**
@@ -108,16 +107,16 @@ import java.util.regex.Pattern;
      * @return true,false si la matriz es valida
      */
     public Boolean validarBaseNitrogenada(AdnRequest dna){
-<span class="fc" id="L111">        Boolean esValida = true;</span>
-<span class="fc" id="L112">        Pattern pat = Pattern.compile(&quot;(A|T|C|G)+&quot;);</span>
-<span class="fc bfc" id="L113" title="All 2 branches covered.">        for (String a:dna.getDna()) {</span>
-<span class="fc" id="L114">            Matcher mat = pat.matcher(a.toUpperCase());</span>
-<span class="fc bfc" id="L115" title="All 2 branches covered.">            if (mat.matches()==false) {</span>
-<span class="fc" id="L116">                esValida = false;</span>
-<span class="fc" id="L117">                break;</span>
+<span class="fc" id="L110">        Boolean esValida = true;</span>
+<span class="fc" id="L111">        Pattern pat = Pattern.compile(&quot;(A|T|C|G)+&quot;);</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        for (String a:dna.getDna()) {</span>
+<span class="fc" id="L113">            Matcher mat = pat.matcher(a.toUpperCase());</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            if (mat.matches()==false) {</span>
+<span class="fc" id="L115">                esValida = false;</span>
+<span class="fc" id="L116">                break;</span>
             }
         }
-<span class="fc" id="L120">        return esValida;</span>
+<span class="fc" id="L119">        return esValida;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
