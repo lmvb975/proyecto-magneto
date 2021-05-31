@@ -16,6 +16,10 @@ public class StatsServiceImpl implements  StatsService{
     @Autowired
     private AdnRepository adnRepository;
 
+    /**
+     * obtiene las estadisticas de adn registrados
+     * @return StatsResponse
+     */
     @Override
     public StatsResponse obtenerStats() {
 
