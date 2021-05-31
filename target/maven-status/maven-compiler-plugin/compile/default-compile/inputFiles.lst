@@ -1,0 +1,13 @@
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/repositories/AdnRepository.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/models/AdnRequest.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/models/AdnResponse.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/models/entities/Adn.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/controllers/MagnetoController.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/services/MagnetoService.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/services/StatsService.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/services/MagnetoServiceImpl.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/services/StatsServiceImpl.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/utils/AdnUtils.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/MagnetoApplication.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/exceptions/AdnInvalidoException.java
+/home/sforero/IdeaProjects/proyecto-magneto/src/main/java/com/magneto/project/models/StatsResponse.java

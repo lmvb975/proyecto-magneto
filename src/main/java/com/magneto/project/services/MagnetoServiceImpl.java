@@ -1,10 +1,13 @@
 package com.magneto.project.services;
 
 import com.google.gson.Gson;
+import com.magneto.project.controllers.MagnetoController;
 import com.magneto.project.models.AdnRequest;
 import com.magneto.project.models.entities.Adn;
 import com.magneto.project.repositories.AdnRepository;
 import com.magneto.project.utils.AdnUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,8 @@ import java.util.UUID;
 
 @Service
 public class MagnetoServiceImpl implements  MagnetoService{
+
+    private static Logger log = LoggerFactory.getLogger(MagnetoServiceImpl.class);
 
     @Autowired
     private AdnRepository adnRepository;
@@ -24,23 +29,33 @@ public class MagnetoServiceImpl implements  MagnetoService{
      */
     @Override
     public Boolean isMutant(AdnRequest dna) {
-        Boolean esMutante = false;
-        int coincidencias=0;
-
         AdnUtils utils = new AdnUtils();
-        utils.setLongitud(dna.getDna().length);
+        if(utils.validarBaseNitrogenada(dna)){
+            if(utils.validarMatriz(dna)){
+                Boolean esMutante = false;
+                int coincidencias=0;
 
-        char[][] matrizAdn = utils.convertirAdnMatriz(dna.getDna());
-        char[][] matrizAdnVertical = utils.girarMatrizDerecha(matrizAdn);
+                utils.setLongitud(dna.getDna().length);
 
-        coincidencias += utils.validarAdnMutante(matrizAdn);
-        coincidencias +=utils.validarAdnMutante(matrizAdnVertical);
-        coincidencias +=utils.validarDiagonal(matrizAdn);
-        coincidencias +=utils.validarDiagonal(matrizAdnVertical);
-        esMutante = esAdnMutante(coincidencias);
+                char[][] matrizAdn = utils.convertirAdnMatriz(dna.getDna());
+                char[][] matrizAdnVertical = utils.girarMatrizDerecha(matrizAdn);
 
-        guardarAdn(dna.getDna(),esMutante);
-        return esMutante;
+                coincidencias += utils.validarAdnMutante(matrizAdn);
+                coincidencias +=utils.validarAdnMutante(matrizAdnVertical);
+                coincidencias +=utils.validarDiagonal(matrizAdn);
+                coincidencias +=utils.validarDiagonal(matrizAdnVertical);
+                esMutante = esAdnMutante(coincidencias);
+
+                guardarAdn(dna.getDna(),esMutante);
+                return esMutante;
+            }else{
+                log.info("adn no cumple regla NxN");
+                return false;
+            }
+        }else{
+            log.info("base nitrogenada invalida");
+            return false;
+        }
     }
 
     /**

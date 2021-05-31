@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MagnetoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">magneto</a> &gt; <a href="index.source.html" class="el_package">com.magneto.project.controllers</a> &gt; <span class="el_source">MagnetoController.java</span></div><h1>MagnetoController.java</h1><pre class="source lang-java linenums">package com.magneto.project.controllers;
+
+import com.magneto.project.models.AdnRequest;
+import com.magneto.project.models.StatsResponse;
+import com.magneto.project.services.MagnetoService;
+import com.magneto.project.services.StatsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping
+<span class="fc" id="L16">public class MagnetoController {</span>
+
+<span class="fc" id="L18">    private static Logger log = LoggerFactory.getLogger(MagnetoController.class);</span>
+
+    @Autowired
+    private MagnetoService magnetoService;
+
+    @Autowired
+    private StatsService statsService;
+
+    @PostMapping(&quot;/mutant&quot;)
+    public ResponseEntity&lt;Boolean&gt; validarADN(@RequestBody AdnRequest dna){
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if(magnetoService.isMutant(dna)){</span>
+<span class="fc" id="L29">            log.info(&quot;Es Mutante !&quot;);</span>
+<span class="fc" id="L30">            return ResponseEntity.status(HttpStatus.OK).body(true);</span>
+        }else{
+<span class="fc" id="L32">            log.info(&quot;Es Humano !&quot;);</span>
+<span class="fc" id="L33">            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(false);</span>
+        }
+    }
+
+    @GetMapping(&quot;/stats&quot;)
+    public ResponseEntity&lt;StatsResponse&gt; statsAdn(){
+<span class="fc" id="L39">        return ResponseEntity.status(HttpStatus.OK).body(statsService.obtenerStats());</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

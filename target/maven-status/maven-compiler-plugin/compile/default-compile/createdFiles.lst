@@ -1,0 +1,13 @@
+com/magneto/project/services/StatsServiceImpl.class
+com/magneto/project/models/AdnRequest.class
+com/magneto/project/services/MagnetoServiceImpl.class
+com/magneto/project/models/entities/Adn.class
+com/magneto/project/services/MagnetoService.class
+com/magneto/project/utils/AdnUtils.class
+com/magneto/project/MagnetoApplication.class
+com/magneto/project/repositories/AdnRepository.class
+com/magneto/project/services/StatsService.class
+com/magneto/project/controllers/MagnetoController.class
+com/magneto/project/models/AdnResponse.class
+com/magneto/project/exceptions/AdnInvalidoException.class
+com/magneto/project/models/StatsResponse.class
