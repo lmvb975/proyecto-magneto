@@ -1,7 +1,7 @@
 # proyecto-magneto-mutante
 proyecto para validar adn mutante-challenge Meli
 
-##Consumir servicio expuesto en GCP App Engine
+## Consumir servicio expuesto en GCP App Engine
 
 Para la prueba el microservicio lo desplegue en google cloud platform en un servicio app engine.
 para probarlo se puede consumir mediante Postman la siguiente URL:
@@ -32,7 +32,7 @@ Response:
 }
 ```
 
-##Ejecutar proyecto local
+## Ejecutar proyecto local
 
 Ubicarnos en una ruta donde queramos clonar el proyecto y ejecutar el siguiente comando:
 ```
@@ -72,7 +72,7 @@ GET:
 http://localhost:8080/stats
 ```
 
-#Test
+## Test
 Los test de cobertura se pueden encontrar una vez compilado el proyecto con (mvn clean install) en la ruta, estos son generados con la libreria JaCoCo
 ```
 proyecto-magneto/target/site/jacoco/index.html
